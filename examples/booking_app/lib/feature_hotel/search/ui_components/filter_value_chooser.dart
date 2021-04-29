@@ -49,7 +49,7 @@ class _ItemValueChooserState extends State<ItemValueChooser> {
               ),
               Text(
                 '$value',
-                style: DesignSystem.of(context).typography.buttonMain,
+                style: DesignSystem.of(context).typography.bodyText3,
               ),
               FocusButton(
                 onPressed: () => changeValue(value + 1),
