@@ -48,7 +48,8 @@ class HotelAppTheme {
       TextTheme base, DesignSystemColor designSystemColor) {
     const String fontName = 'WorkSans';
     return base.copyWith(
-      headline1: base.headline1!.copyWith(fontFamily: fontName),
+      headline1: base.headline1!
+          .copyWith(fontFamily: fontName, color: designSystemColor.headline1),
       headline2: base.headline2!.copyWith(fontFamily: fontName),
       headline3: base.headline3!.copyWith(fontFamily: fontName),
       headline4: base.headline4!.copyWith(fontFamily: fontName),
@@ -62,7 +63,8 @@ class HotelAppTheme {
           fontFamily: fontName, color: designSystemColor.bodyTextColor2),
       subtitle1: base.subtitle1!.copyWith(fontFamily: fontName),
       subtitle2: base.subtitle2!.copyWith(fontFamily: fontName),
-      overline: base.overline!.copyWith(fontFamily: fontName),
+      overline: base.overline!
+          .copyWith(fontFamily: fontName, color: Colors.orangeAccent),
     );
   }
 

@@ -13,7 +13,7 @@ class DesignSystemColor {
 
   Color get primaryVariant => lightMode ? Colors.blueAccent : _blackVariant;
 
-  Color get secondaryColor => Colors.white;
+  Color get secondaryColor => lightMode ? Colors.white : Colors.black;
 
   Color get indicatorColor => Colors.white;
 
@@ -70,7 +70,7 @@ class DesignSystemColor {
   Color? get chipTitleColor => lightMode ? Colors.black : accentColor;
 
   Color get chipBackgroundColor =>
-      lightMode ? Colors.grey.withOpacity(0.8) : Colors.black;
+      lightMode ? Colors.grey.withOpacity(0.8) : _blackVariant;
 
   Color get alertPrimaryTitleColor => Colors.white;
 

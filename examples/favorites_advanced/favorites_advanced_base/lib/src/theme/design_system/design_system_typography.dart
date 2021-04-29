@@ -63,6 +63,9 @@ class DesignSystemTypography {
       fontSize: 16,
       color: _designSystemColor.bodyTextColor2);
 
+  TextStyle get bodyText3 =>
+      TextStyle(fontSize: 18, color: _designSystemColor.primaryIconColor);
+
   TextStyle get buttonMain => TextStyle(
         color: _designSystemColor.secondaryColor,
         fontSize: 18,

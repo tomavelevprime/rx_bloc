@@ -14,4 +14,8 @@ class DesignSystemIcon {
   IconData get cancel => Icons.cancel;
 
   IconData get wifiOff => Icons.wifi_off;
+
+  IconData get add => Icons.add;
+
+  IconData get remove => Icons.remove;
 }
