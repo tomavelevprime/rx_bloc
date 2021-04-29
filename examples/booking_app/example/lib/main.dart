@@ -23,11 +23,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Storybook(
+        theme: DesignSystem.fromBrightness(context, Brightness.light).theme,
+        darkTheme: DesignSystem.fromBrightness(context, Brightness.dark).theme,
         storyWrapperBuilder: (context, story, child) => Stack(
           children: [
             Container(
               padding: story.padding,
-              color: Theme.of(context).canvasColor,
+              color: DesignSystem.of(context).colors.backgroundColor,
               child: Center(child: child),
             ),
             Padding(
@@ -46,58 +48,18 @@ class MyApp extends StatelessWidget {
           Story(
             section: 'Buttons',
             name: 'Primary',
-            builder: (_, k) => DialogButton(
-              color: k.options(
-                label: 'Color',
-                initial: Colors.blue,
-                options: const [
-                  Option('Blue', Colors.blue),
-                  Option('Red', Colors.deepOrange),
-                  Option('Green', Colors.teal),
-                ],
-              ),
+            builder: (ctx, k) => DialogButton(
               onPressed: () {},
               child: Text(
                 k.text(label: 'Text', initial: 'Apply'),
-                style: DesignSystem.of(context).typography.buttonMain,
+                style: DesignSystem.of(ctx).typography.buttonMain,
               ),
             ),
           ),
           Story(
             section: 'Buttons',
             name: 'Icon',
-            builder: (_, k) => FocusButton(
-              onPressed: () {},
-              child: Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: Row(
-                  children: <Widget>[
-                    Text(
-                      k.text(label: 'Text', initial: 'Sort'),
-                      style: DesignSystem.of(context).typography.headline4,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: Icon(
-                        k.options(
-                          label: 'Style',
-                          initial: DesignSystem.of(context).icons.sort,
-                          options: [
-                            Option('Sort', DesignSystem.of(context).icons.sort),
-                            Option('Search',
-                                DesignSystem.of(context).icons.search),
-                            Option('Add', DesignSystem.of(context).icons.add),
-                            Option('Remove',
-                                DesignSystem.of(context).icons.remove),
-                          ],
-                        ),
-                        color: DesignSystem.of(context).colors.primaryIconColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
+            builder: (ctx, k) => _buildIconButtons(ctx, k),
           ),
           Story.simple(
             name: 'Search field',
@@ -106,17 +68,17 @@ class MyApp extends StatelessWidget {
           Story(
             section: 'Common',
             name: 'Distance',
-            builder: (_, k) => Row(
+            builder: (ctx, k) => Row(
               children: [
                 Icon(
                   FontAwesomeIcons.mapMarkerAlt,
                   size: 12,
-                  color: DesignSystem.of(context).colors.primaryIconColor,
+                  color: DesignSystem.of(ctx).colors.primaryIconColor,
                 ),
                 const SizedBox(width: 4),
                 SkeletonText(
                   text: 'km to city',
-                  style: DesignSystem.of(context).typography.subtitle2,
+                  style: DesignSystem.of(ctx).typography.subtitle2,
                   height: 18,
                 ),
               ],
@@ -125,111 +87,131 @@ class MyApp extends StatelessWidget {
           Story(
             section: 'Common',
             name: 'Stars',
-            builder: (_, k) => SmoothStarRating(
+            builder: (ctx, k) => SmoothStarRating(
               allowHalfRating: true,
               starCount: 5,
               rating: 4.7,
               size: 20,
-              color: DesignSystem.of(context).colors.primaryIconColor,
-              borderColor: DesignSystem.of(context).colors.primaryIconColor,
+              color: DesignSystem.of(ctx).colors.primaryIconColor,
+              borderColor: DesignSystem.of(ctx).colors.primaryIconColor,
             ),
           ),
           Story(
             section: 'Common',
             name: 'Chip',
-            builder: (_, k) => Row(
-              children: [
-                Chip(
-                  backgroundColor:
-                      DesignSystem.of(context).colors.chipBackgroundColor,
-                  label: Text(
-                    'WiFI',
-                    style: DesignSystem.of(context).typography.chipTitle,
-                  ),
-                ),
-                Chip(
-                  backgroundColor:
-                      DesignSystem.of(context).colors.chipBackgroundColor,
-                  label: Text(
-                    'Air Conditioning',
-                    style: DesignSystem.of(context).typography.chipTitle,
-                  ),
-                ),
-                Chip(
-                  backgroundColor:
-                      DesignSystem.of(context).colors.chipBackgroundColor,
-                  label: Text(
-                    'Air Conditioning',
-                    style: DesignSystem.of(context).typography.chipTitle,
-                  ),
-                ),
-              ],
-            ),
+            builder: (ctx, k) => _buildChip(ctx),
           ),
-          Story.simple(name: 'Capacity filter', child: _buildCapacityFilter()),
           Story.simple(
-              name: 'Date Range filter', child: _buildDateRangeFilter()),
+            name: 'Capacity filter',
+            child: _buildCapacityFilter(),
+          ),
+          Story.simple(
+            name: 'Date Range filter',
+            child: _buildDateRangeFilter(),
+          ),
           Story.simple(
               padding: const EdgeInsets.only(top: 80, right: 20, left: 20),
               name: 'ShadowCard',
-              child: Column(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: DesignSystem.of(context).colors.brightness ==
-                              Brightness.light
-                          ? <BoxShadow>[
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.6),
-                                offset: const Offset(4, 4),
-                                blurRadius: 16,
-                              ),
-                            ]
-                          : null,
-                    ),
-                    child: ClipRRect(
-                      borderRadius:
-                          const BorderRadius.all(Radius.circular(16.0)),
-                      child: Material(
-                        child: Stack(
-                          children: <Widget>[
-                            Column(
-                              children: <Widget>[
-                                HotelImage(
-                                  hotel: hotel,
-                                  aspectRatio: 2,
-                                ),
-                                CardHeader(
-                                    hotel: hotel,
-                                    padding: const EdgeInsets.all(2)),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ))
+              child: _buildShadowCard(context))
         ],
       );
 }
 
-Widget _buildCapacityFilter() => RxMultiBlocProvider(
-      providers: [
-        RxBlocProvider<CoordinatorBlocType>(
-          create: (context) => CoordinatorBloc(),
+Widget _buildIconButtons(BuildContext context, KnobsBuilder k) => FocusButton(
+      onPressed: () {},
+      child: Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: Row(
+          children: <Widget>[
+            Text(
+              k.text(label: 'Text', initial: 'Sort'),
+              style: DesignSystem.of(context).typography.headline4,
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8),
+              child: Icon(
+                k.options(
+                  label: 'Style',
+                  initial: DesignSystem.of(context).icons.sort,
+                  options: [
+                    Option('Sort', DesignSystem.of(context).icons.sort),
+                    Option('Search', DesignSystem.of(context).icons.search),
+                    Option('Add', DesignSystem.of(context).icons.add),
+                    Option('Remove', DesignSystem.of(context).icons.remove),
+                  ],
+                ),
+                color: DesignSystem.of(context).colors.primaryIconColor,
+              ),
+            ),
+          ],
         ),
-        RxBlocProvider<HotelListBlocType>(
-          create: (context) => HotelListBloc(
-            PaginatedHotelsRepository(
-                HotelsRepository(ConnectivityRepository())),
-            CoordinatorBloc(),
+      ),
+    );
+
+Widget _buildChip(BuildContext context) => Row(
+      children: [
+        Chip(
+          backgroundColor: DesignSystem.of(context).colors.chipBackgroundColor,
+          label: Text(
+            'WiFI',
+            style: DesignSystem.of(context).typography.chipTitle,
+          ),
+        ),
+        Chip(
+          backgroundColor: DesignSystem.of(context).colors.chipBackgroundColor,
+          label: Text(
+            'Air Conditioning',
+            style: DesignSystem.of(context).typography.chipTitle,
+          ),
+        ),
+        Chip(
+          backgroundColor: DesignSystem.of(context).colors.chipBackgroundColor,
+          label: Text(
+            'Air Conditioning',
+            style: DesignSystem.of(context).typography.chipTitle,
           ),
         ),
       ],
-      child: _buildCapacityFilterBody(),
     );
+
+Widget _buildShadowCard(BuildContext context) => Column(
+      children: [
+        Container(
+          decoration: BoxDecoration(
+            boxShadow: Theme.of(context).brightness == Brightness.light
+                ? <BoxShadow>[
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.6),
+                      offset: const Offset(4, 4),
+                      blurRadius: 16,
+                    ),
+                  ]
+                : null,
+          ),
+          child: ClipRRect(
+            borderRadius: const BorderRadius.all(Radius.circular(16)),
+            child: Material(
+              child: Stack(
+                children: <Widget>[
+                  Column(
+                    children: <Widget>[
+                      HotelImage(
+                        hotel: hotel,
+                        aspectRatio: 2,
+                      ),
+                      CardHeader(
+                          hotel: hotel, padding: const EdgeInsets.all(2)),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+
+Widget _buildCapacityFilter() => _buildProviders(_buildCapacityFilterBody());
 
 Widget _buildCapacityFilterBody() =>
     RxBlocBuilder<HotelListBlocType, CapacityFilterData>(
@@ -306,21 +288,7 @@ Widget _buildClearButton(BuildContext context, VoidCallback? onPressed) =>
           color: DesignSystem.of(context).colors.primaryColor),
     );
 
-Widget _buildDateRangeFilter() => RxMultiBlocProvider(
-      providers: [
-        RxBlocProvider<CoordinatorBlocType>(
-          create: (context) => CoordinatorBloc(),
-        ),
-        RxBlocProvider<HotelListBlocType>(
-          create: (context) => HotelListBloc(
-            PaginatedHotelsRepository(
-                HotelsRepository(ConnectivityRepository())),
-            CoordinatorBloc(),
-          ),
-        ),
-      ],
-      child: _buildDateRangeBodyFilter(),
-    );
+Widget _buildDateRangeFilter() => _buildProviders(_buildDateRangeBodyFilter());
 
 Widget _buildDateRangeBodyFilter() =>
     RxBlocBuilder<HotelListBlocType, DateRangeFilterData>(
@@ -374,4 +342,20 @@ Widget _buildDateRangeBodyFilter() =>
           ],
         );
       },
+    );
+
+Widget _buildProviders(Widget child) => RxMultiBlocProvider(
+      providers: [
+        RxBlocProvider<CoordinatorBlocType>(
+          create: (context) => CoordinatorBloc(),
+        ),
+        RxBlocProvider<HotelListBlocType>(
+          create: (context) => HotelListBloc(
+            PaginatedHotelsRepository(
+                HotelsRepository(ConnectivityRepository())),
+            CoordinatorBloc(),
+          ),
+        ),
+      ],
+      child: child,
     );

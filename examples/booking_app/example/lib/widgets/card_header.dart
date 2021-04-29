@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 class CardHeader extends StatelessWidget {
   const CardHeader({
-    Key? key,
     required this.hotel,
     required EdgeInsets? padding,
-  })   : _padding = padding,
+    Key? key,
+  })  : _padding = padding,
         super(key: key);
 
   final Hotel hotel;
