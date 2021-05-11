@@ -24,7 +24,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  storybook_flutter: ^0.5.0
+  storybook_flutter: 0.4.0
   cupertino_icons: ^1.0.2
   favorites_advanced_base:
   booking_app:
