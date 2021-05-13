@@ -2,22 +2,14 @@ part of 'home_page.dart';
 
 List<RxBlocProvider> _getProviders() => [
       RxBlocProvider<FavoriteHotelsBlocType>(
-        create: (context) => FavoriteHotelsBloc(
-          Provider.of(context, listen: false),
-          Provider.of(context, listen: false),
-        ),
+        create: (context) => FavoriteHotelsBloc(context.read(), context.read()),
       ),
       RxBlocProvider<HotelManageBlocType>(
-        create: (context) => HotelManageBloc(
-          Provider.of(context, listen: false),
-          Provider.of(context, listen: false),
-        ),
+        create: (context) => HotelManageBloc(context.read(), context.read()),
       ),
       RxBlocProvider<HotelsExtraDetailsBlocType>(
-        create: (context) => HotelsExtraDetailsBloc(
-          Provider.of(context, listen: false),
-          Provider.of(context, listen: false),
-        ),
+        create: (context) =>
+            HotelsExtraDetailsBloc(context.read(), context.read()),
       ),
       RxBlocProvider<NavigationBarBlocType>(
         create: (context) => NavigationBarBloc(),

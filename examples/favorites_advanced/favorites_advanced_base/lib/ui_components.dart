@@ -15,3 +15,4 @@ export 'src/common_ui_components/animated_list.dart';
 export 'src/common_ui_components/search_bar.dart';
 export 'src/common_ui_components/skeleton_text.dart';
 export 'src/utils/dialog_messages.dart';
+export 'src/common_ui_components/firebase_initializer.dart';

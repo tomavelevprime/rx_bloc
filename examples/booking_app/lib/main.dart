@@ -13,32 +13,32 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) => MultiProvider(
-        providers: [
-          Provider<PaginatedHotelsRepository>(
-            create: (context) => PaginatedHotelsRepository(
-              HotelsRepository(
-                ConnectivityRepository(),
-                multiplier: 100,
+  Widget build(BuildContext context) => FirebaseInitializer(
+        child: MultiProvider(
+          providers: [
+            Provider<PaginatedHotelsRepository>(
+              create: (context) => PaginatedHotelsRepository(
+                HotelsRepository.withFirebaseDataSource(),
               ),
             ),
-          ),
-          Provider<CoordinatorBlocType>(create: (context) => CoordinatorBloc()),
-          Provider<HotelListBlocType>(
-            create: (context) => HotelListBloc(
-              Provider.of(context, listen: false),
-              Provider.of(context, listen: false),
+            Provider<CoordinatorBlocType>(
+              create: (context) => CoordinatorBloc(),
             ),
-          ),
-        ],
-        child: MaterialApp(
-          title: 'Booking app',
-          home: HomePage.page(),
-          theme: ThemeData(
-            primarySwatch: Colors.blue,
-            scaffoldBackgroundColor: ColorStyles.scaffoldBackgroundColor,
+            Provider<HotelListBlocType>(
+              create: (context) => HotelListBloc(
+                context.read(),
+                context.read(),
+              ),
+            ),
+          ],
+          child: MaterialApp(
+            title: 'Booking app',
+            home: HomePage.page(),
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+              scaffoldBackgroundColor: ColorStyles.scaffoldBackgroundColor,
+            ),
           ),
         ),
       );
