@@ -101,7 +101,7 @@ void main() {
         Stub.paginatedListEmpty,
         Stub.paginatedListOneHotel,
         Stub.paginatedListOneHotel,
-        Stub.paginatedListTreeHotels
+        Stub.paginatedListTreeHotels,
       ],
     );
 
