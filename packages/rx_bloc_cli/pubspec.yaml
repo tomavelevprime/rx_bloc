@@ -11,8 +11,7 @@ environment:
 dependencies:
   args: ^2.3.0
   flutter_lints: ^1.0.4
-  io: ^1.0.3
-  mason: ^0.0.1-dev.57
+  mason: ^0.1.0-dev.1
   path: ^1.8.1
 
 dev_dependencies:
